@@ -1,80 +1,96 @@
 FORMAT: 1A
-HOST: http://polls.apiblueprint.org/
+HOST: http://payments-api.blim.com/
 
 # Payments API
 
-Polls is a simple API allowing consumers to view polls and vote in them.
+Payments API is a simple application allowing consumers to manipulate payment methods and transaction data.
 
-## Questions Collection [/questions]
+# Group Payment Method
 
-### List All Questions [GET]
+## Create [/payment-method]
+Allows the consumer to create a payment method for a specific user.
 
-+ Response 200 (application/json)
-
-        [
-            {
-                "question": "Favourite programming language?",
-                "published_at": "2015-08-05T08:40:51.620Z",
-                "choices": [
-                    {
-                        "choice": "Swift",
-                        "votes": 2048
-                    }, {
-                        "choice": "Python",
-                        "votes": 1024
-                    }, {
-                        "choice": "Objective-C",
-                        "votes": 512
-                    }, {
-                        "choice": "Ruby",
-                        "votes": 256
-                    }
-                ]
-            }
-        ]
-
-### Create a New Question [POST]
-
-You may create your own question using this action. It takes a JSON
-object containing a question and a collection of answers in the
-form of choices.
+### Create a Payment Method [POST]
 
 + Request (application/json)
-
-        {
-            "question": "Favourite programming language?",
-            "choices": [
-                "Swift",
-                "Python",
-                "Objective-C",
-                "Ruby"
-            ]
-        }
+    + Attributes (Payment Method Request)
 
 + Response 201 (application/json)
+    + Attributes (Base Response)
+        + headers (Payment Method Headers)
+        + data (Payment Method Data)
 
-    + Headers
+## Fetch [/payment-method/{id}]
+Allows the consumer to fetch a payment method for a specific user.
 
-            Location: /questions/2
+### Fetch a Payment Method [GET]
 
-    + Body
++ Response 200 (application/json)
+    + Attributes (Base Response)
+        + data (Payment Method Data)
 
-            {
-                "question": "Favourite programming language?",
-                "published_at": "2015-08-05T08:40:51.620Z",
-                "choices": [
-                    {
-                        "choice": "Swift",
-                        "votes": 0
-                    }, {
-                        "choice": "Python",
-                        "votes": 0
-                    }, {
-                        "choice": "Objective-C",
-                        "votes": 0
-                    }, {
-                        "choice": "Ruby",
-                        "votes": 0
-                    }
-                ]
-            }
+# Group Transaction
+
+## Create [/transaction]
+Allows the consumer to create a transaction of a certain type for a specific user.
+
+### Create a New Transaction [POST]
+
++ Request (application/json)
+    + Attributes (Transaction Request)
+
++ Response 201 (application/json)
+    + Attributes (Base Response)
+        + data (Transaction Data)
+
+## Fetch [/transaction/{id}]
+Allows the consumer to fetch a transaction for a specific user.
+
+### Fetch a Transaction [GET]
+
++ Response 200 (application/json)
+    + Attributes (Base Response)
+        + data (Transaction Data)
+
+# Data Structures
+
+## Base Response (object)
++ headers (array)
++ data (array)
++ messages (array)
+
+## Base Request (object)
++ user_id: 1 (number, required)
++ amount: 109.00 (number, required)
++ currency_iso_code (enum[string], required)
+    + Members
+        + `MXN` - Mexican Peso
+        + `USD` - United States Dollar
++ country_iso_code (enum[string], required)
+    + Members
+        + `MX` - Mexico
+        + `US` - United States
+
+
+## Payment Method Request (Base Request)
++ adapter (enum[string], required)
+    + Members
+        + `spreedly` - Spreedly Adapter
+        + `braintree` - Braintree Adapter
+        + `mercadopago` - Mercado Pago Adapter
++ payment_method_token: deadbeef (string, required)
+
+## Payment Method Headers (object)
++ is_unique: true (boolean)
+
+## Payment Method Data (object)
++ id: 1 (number, required)
+
+
+## Transaction Request (Base Request)
++ type: subscription (enum[string], required)
+    + Members
+        + `subscription` - Subscription Transaction
+
+## Transaction Data (object)
++ id: 1 (number, required)
