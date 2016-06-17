@@ -60,25 +60,25 @@ Allows the consumer to fetch a transaction for a specific user.
 + messages (array)
 
 ## Base Request (object)
-+ user_id: 1 (number, required)
-+ amount: 109.00 (number, required)
-+ currency_iso_code (enum[string], required)
++ account_id: 1 (number, required) - Account ID
++ currency_code (enum[string], required) - Currency ISO Code
     + Members
-        + `MXN` - Mexican Peso
-        + `USD` - United States Dollar
-+ country_iso_code (enum[string], required)
+        + MXN - Mexican Peso
+        + USD - United States Dollar
++ country_code (enum[string], required) - Country ISO Code
     + Members
-        + `MX` - Mexico
-        + `US` - United States
+        + MX - Mexico
+        + US - United States
 
 
 ## Payment Method Request (Base Request)
-+ adapter (enum[string], required)
++ adapter (enum[string], required) - Gateway Adapter
     + Members
-        + `spreedly` - Spreedly Adapter
-        + `braintree` - Braintree Adapter
-        + `mercadopago` - Mercado Pago Adapter
-+ payment_method_token: deadbeef (string, required)
+        + SPREEDLY - Spreedly Adapter
+        + BRAINTREE - Braintree Adapter
+        + MERCADOPAGO - Mercado Pago Adapter
++ external_token: deadbeef (string, required) - External Payment Method Token
++ verification_amount: 10 (number) - Verification Amount (Optional)
 
 ## Payment Method Headers (object)
 + is_unique: true (boolean)
@@ -88,9 +88,11 @@ Allows the consumer to fetch a transaction for a specific user.
 
 
 ## Transaction Request (Base Request)
-+ type: subscription (enum[string], required)
++ amount: 109 (number, required) - Transaction Amount
++ type (enum[string], required) - Transaction Type
     + Members
-        + `subscription` - Subscription Transaction
+        + subscription - Subscription Transaction
+        + verification - Verification Transaction
 
 ## Transaction Data (object)
 + id: 1 (number)
