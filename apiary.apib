@@ -131,8 +131,32 @@ Allows the consumer to create a transaction of a certain type for a specific use
     + Attributes (Base Response)
         + messages
             + value: `Merchant not supported for currency` (string)
+            
+            
+## Search Transactions [/transaction{?search_limit,search_page,search_sort,amount,adapter,anyOtherTransactionProperty}] 
+Allows the consumer to search transactions
 
-## Read [/transaction/{id}]
+### Search [GET]
+
++ Parameters
+    + search_limit = 25 (number, optional, `10`) - The limit of transactions in the response
+    + search_page = 1 (number, optional, `2`) - The page number(for pagination)
+    + search_sort (enum[string], optional) - To sort results. The format is: transactionField-Order
+        + Members
+            + `id-ASC` - Order by id ascending
+            + `adapter-DESC` - Order by adapter, descending
+            + `amount` - Order by amount (by default, ASC)
+    + amount (float, optional, `3.5`) - The amount of the transaction
+    + adapter (string, optional, `SPREEDLY`) - The adater of the transaction
+    + anyOtherTransactionProperty (string, optional) - Any valid transaction property
+    
++ Response 200 (application/json)
+    + Attributes (Base Response)
+        + data (array)
+            + (Transaction Data)
+            + (Transaction Data)
+
+## Read and Refund [/transaction/{id}]
 Allows the consumer to fetch a transaction for a specific user.
 
 ### Fetch a Transaction [GET]
@@ -148,6 +172,20 @@ Allows the consumer to fetch a transaction for a specific user.
         + messages
             + context: null (string)
             + value: Transaction not found (string)
+            
+### Refund a Transaction [DELETE]
++ Parameters
+    + id (number) - Id of the transaction
+
++ Response 200 (application/json)
+    + Attributes (Base Response)
+        + data (Transaction Data)
+
++ Response 404 (application/json)
+    + Attributes (Base Response)
+        + messages
+            + context: null (string)
+            + value: Entity not found (string)
 
 # Data Structures
 
