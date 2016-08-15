@@ -18,6 +18,7 @@ Payments API is a simple application allowing consumers to manipulate payment me
             + spreedly
             + braintree
             + mercadoPago
+            + third_party
 
 + Request (application/json)
     + Attributes (object)
@@ -157,7 +158,7 @@ Allows the consumer to search transactions
             + (Transaction Data)
 
 ## Read and Refund [/transaction/{id}]
-Allows the consumer to fetch a transaction for a specific user.
+Allows the consumer to fetch and refund a transaction.
 
 ### Fetch a Transaction [GET]
 + Parameters
@@ -223,6 +224,7 @@ Allows the consumer to fetch a transaction for a specific user.
         + spreedly - Spreedly Adapter
         + braintree - Braintree Adapter
         + mercadoPago - Mercado Pago Adapter
+        + third_party - MSO account providers
 + paymentMethodToken: `we23r` (string, required) - External Payment Method Token
 + verificationAmount: `1` (number) - Verification Amount (Optional)
 + initpoint: `spreadly576c32ffce530` (string, required)
