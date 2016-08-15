@@ -1,11 +1,32 @@
 FORMAT: 1A
-HOST: http://payments-api.blim.com/
+HOST: http://payments-api-test.blim.com/
 
 # Payments API
-
 Payments API is a simple application allowing consumers to manipulate payment methods and transaction data.
 
+# Group Initpoint
+
 # Group Payment Method
+
+## Initpoint [/initpoint/{adapter}]
+
+### Initpoint [POST]
+
++ Parameters
+    + adapter (enum[string]) - Payment method adapter
+        + Members
+            + spreedly
+            + braintree
+            + mercadoPago
+
++ Request (application/json)
+    + Attributes (object)
+        + accountId (number, required)
+
++ Response 200 (application/json)
+    + Attributes (Base Response)
+        + data
+            + token: `spreedly576c24cda0fad` (string)
 
 ## Create [/payment-method]
 Allows the consumer to create a payment method for a specific user.
@@ -19,15 +40,73 @@ Allows the consumer to create a payment method for a specific user.
     + Attributes (Base Response)
         + headers (Payment Method Headers)
         + data (Payment Method Data)
+        
++ Response 400 (application/json)
+    + Attributes (Base Response)
+        + messages
+            + value: `Initpoint persistence error` (string)
+            
++ Response 406 (application/json)
+    + Attributes (Base Response)
+        + messages
+            + value: `Invalid or expired endpoint` (string)
+                    
++ Response 422 (application/json)
+    + Attributes (Base Response)
+        + messages
+            + value: `This is just a dummy message` (string) - To be defined
+
 
 ## Read [/payment-method/{id}]
 Allows the consumer to fetch a payment method for a specific user.
 
 ### Fetch a Payment Method [GET]
 
++ Parameters
+    + id (number) - Id of the payment method
+
 + Response 200 (application/json)
     + Attributes (Base Response)
         + data (Payment Method Data)
+
++ Response 404 (application/json)
+    + Attributes (Base Response)
+        + messages
+            + value: Payment method not found (string)
+
+## Read [/adapter/{country}]
+List of payment adapter by country
+
+### Retrieve Adapters by country [GET]
+Retrieve all the payment adapters by a specific country
+
++ Parameters
+    + country (required, string) - country ISO Alpha-2 code
+
++ Response 200 (application/json)
+    + Attributes (Base Response)
+        + data (array)
+            + (object)
+                + name (enum[string])
+                    + Members
+                        + spreadly
+                        + braintree
+                        + mercadoPago
+                + paymentOptions (array[string])
+                    + visa
+                    + masterCard
+                    + amex
+            + (object)
+                + name (enum[string])
+                    + Members
+                        + braintree
+                        + spreadly
+                        + mercadoPago
+                + paymentOptions (array[string])
+                    + visa
+                    + masterCard
+                    + amex
+
 
 # Group Transaction
 
@@ -42,15 +121,33 @@ Allows the consumer to create a transaction of a certain type for a specific use
 + Response 201 (application/json)
     + Attributes (Base Response)
         + data (Transaction Data)
+        
++ Response 400 (application/json)
+    + Attributes (Base Response)
+        + messages
+            + value: `Invalid request` (string)
+                    
++ Response 422 (application/json)
+    + Attributes (Base Response)
+        + messages
+            + value: `Merchant not supported for currency` (string)
 
 ## Read [/transaction/{id}]
 Allows the consumer to fetch a transaction for a specific user.
 
 ### Fetch a Transaction [GET]
++ Parameters
+    + id (number) - Id of the transaction
 
 + Response 200 (application/json)
     + Attributes (Base Response)
         + data (Transaction Data)
+
++ Response 404 (application/json)
+    + Attributes (Base Response)
+        + messages
+            + context: null (string)
+            + value: Transaction not found (string)
 
 # Data Structures
 
@@ -60,39 +157,104 @@ Allows the consumer to fetch a transaction for a specific user.
 + messages (array)
 
 ## Base Request (object)
-+ account_id: 1 (number, required) - Account ID
-+ currency_code (enum[string], required) - Currency ISO Code
++ accountId: `1` (number, required) - Account ID
++ currency (enum[string], required) - Currency ISO Code
     + Members
         + MXN - Mexican Peso
         + USD - United States Dollar
-+ country_code (enum[string], required) - Country ISO Code
++ country (enum[string], required) - Country ISO Code
     + Members
         + MX - Mexico
         + US - United States
 
 
+## Adapter Data (object)
++ name: `spreedly` (string)
++ paymentOptions (enum[string])
+    + Members
+        + visa - Visa
+        + master - MasterCard
+        + amex - American Express
+        + discover - Discover
+        + paypal - PayPal
+
+
 ## Payment Method Request (Base Request)
 + adapter (enum[string], required) - Gateway Adapter
     + Members
-        + SPREEDLY - Spreedly Adapter
-        + BRAINTREE - Braintree Adapter
-        + MERCADOPAGO - Mercado Pago Adapter
-+ external_token: deadbeef (string, required) - External Payment Method Token
-+ verification_amount: 10 (number) - Verification Amount (Optional)
+        + spreedly - Spreedly Adapter
+        + braintree - Braintree Adapter
+        + mercadoPago - Mercado Pago Adapter
++ paymentMethodToken: `we23r` (string, required) - External Payment Method Token
++ verificationAmount: `1` (number) - Verification Amount (Optional)
++ initpoint: `spreadly576c32ffce530` (string, required)
 
 ## Payment Method Headers (object)
-+ is_unique: true (boolean)
++ isUnique: `true` (boolean)
 
 ## Payment Method Data (object)
-+ id: 1 (number)
++ adapter: `spreedly` (string)
++ cardExpiration: `03/20` (string)
++ cardName: `null` (string) 
++ cardNumber: `8907f9aa2b1cf1391927610874e2773fa17d`  (string)
++ cardType: ` `  (string)
++ createdAt: `2016-06-20T20:56:49Z` (string)
++ createdBy: `null` (number)
++ description: `null` (string)
++ directDepositId: `null` (string)
++ externalCustomerId: `null` (number)
++ id: `231` (number)
++ isActive: `true` (boolean)
++ modifiedAt: `2016-06-20T20:56:49Z` (string)
++ modifiedBy: `null` (number)
++ name: `null` (string)
++ secureCardNumber: `555555******4444` (string)
++ state (enum[string])
+    + Members
+        + verified
+        + pending
+        + rejected
+        + disabled
++ subscriber: `23456` (number)
++ tokenId: `PHd3By13LFlDTG1OxnHi7FYAbK8` (string)
++ entity: `paymentMethod` (string)
 
 
 ## Transaction Request (Base Request)
-+ amount: 109 (number, required) - Transaction Amount
-+ type (enum[string], required) - Transaction Type
-    + Members
-        + subscription - Subscription Transaction
-        + verification - Verification Transaction
++ amount: `109` (number, required) - Transaction Amount
++ description: `Blim transaction` (string) - Transaction Description
++ reference: null (string, optional) - The transaction token, for now only used by MSO AccountManager API 
 
 ## Transaction Data (object)
-+ id: 1 (number)
++ adapter: `braintree_spreedly` (string)
++ amount: `10` (number)
++ authorizationCode: ` ` (string)
++ createdAt: `2016-06-20T16:07:58Z` (string)
++ createdBy: `null` (number)
++ currency: `null` (number)
++ currencyCode: ` ` (string)
++ dateEntered: `2016-06-20T16:07:58Z` (string)
++ deleted: `null` (string)
++ description: `Blim transaction` (string)
++ externalToken: ` ` (string)
++ id: `90` (number)
++ name: `Blim transaction` (string)
++ originalToken: `null` (string)
++ paymentMethod: `226` (number)
++ paymentMethodName: ` ` (string)
++ paymentStatus (enum[string]) 
+    + Members
+        + approved
+        + pending
+        + refunded
+        + declined
+        + soft_declined
++ paymentStatusDetail: ` ` (string)
++ purshaseDate `2016-06-20T16:07:58Z` (string)
++ status: `1` (string)
++ subscriber: `23456` (number)
++ subscriptionSettlementId: `0` (number)
++ subtype: `subscription` (string)
++ token: `3YakdOLVLCXwXGlvxqfgTnRPVL1` (string)
++ type: `income` (string)
++ entity: `transaction` (string)
