@@ -174,7 +174,7 @@ Allows the consumer to fetch and refund a transaction.
 + Response 404 (application/json)
     + Attributes (Base Response)
         + messages
-            + context: null (string)
+            + context (string, nullable)
             + value: Entity not found (string)
 
 # Data Structures
@@ -224,13 +224,13 @@ Allows the consumer to fetch and refund a transaction.
 ## Payment Method Data (object)
 + adapter: `spreedly` (string)
 + cardExpiration: `03/20` (string)
-+ cardName: `null` (string) 
++ cardName (string, nullable) 
 + cardNumber: `8907f9aa2b1cf1391927610874e2773fa17d`  (string)
-+ cardType: ` `  (string)
++ cardType (string)
 + createdAt: `2016-06-20T20:56:49Z` (string)
 + createdBy (number, nullable, optional)
-+ description: `null` (string)
-+ directDepositId: `null` (string)
++ description (string, nullable, optional)
++ directDepositId (string, nullable)
 + externalCustomerId (number, nullable, optional)
 + id: `231` (number)
 + isActive: `true` (boolean)
