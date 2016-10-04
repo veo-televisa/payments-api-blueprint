@@ -46,17 +46,6 @@ Allows the consumer to create a payment method for a specific user.
     + Attributes (Base Response)
         + messages
             + value: `Initpoint persistence error` (string)
-            
-+ Response 406 (application/json)
-    + Attributes (Base Response)
-        + messages
-            + value: `Invalid or expired endpoint` (string)
-                    
-+ Response 422 (application/json)
-    + Attributes (Base Response)
-        + messages
-            + value: `This is just a dummy message` (string) - To be defined
-
 
 ## Read [/payment-method/{id}]
 Allows the consumer to fetch a payment method for a specific user.
@@ -126,7 +115,7 @@ Allows the consumer to create a transaction of a certain type for a specific use
 + Response 400 (application/json)
     + Attributes (Base Response)
         + messages
-            + value: `Invalid request` (string)
+            + value: `$entry is required to charge` (string)
                     
 + Response 422 (application/json)
     + Attributes (Base Response)
@@ -239,14 +228,14 @@ Allows the consumer to fetch and refund a transaction.
 + cardNumber: `8907f9aa2b1cf1391927610874e2773fa17d`  (string)
 + cardType: ` `  (string)
 + createdAt: `2016-06-20T20:56:49Z` (string)
-+ createdBy: `null` (number)
++ createdBy (number, nullable, optional)
 + description: `null` (string)
 + directDepositId: `null` (string)
-+ externalCustomerId: `null` (number)
++ externalCustomerId (number, nullable, optional)
 + id: `231` (number)
 + isActive: `true` (boolean)
 + modifiedAt: `2016-06-20T20:56:49Z` (string)
-+ modifiedBy: `null` (number)
++ modifiedBy (number, nullable, optional)
 + name: `null` (string)
 + secureCardNumber: `555555******4444` (string)
 + state (enum[string])
@@ -268,20 +257,20 @@ Allows the consumer to fetch and refund a transaction.
 ## Transaction Data (object)
 + adapter: `braintree_spreedly` (string)
 + amount: `10` (number)
-+ authorizationCode: ` ` (string)
++ authorizationCode (string)
 + createdAt: `2016-06-20T16:07:58Z` (string)
-+ createdBy: `null` (number)
-+ currency: `null` (number)
-+ currencyCode: ` ` (string)
++ createdBy (number, nullable, optional)
++ currency (number, nullable, optional)
++ currencyCode (string)
 + dateEntered: `2016-06-20T16:07:58Z` (string)
-+ deleted: `null` (string)
++ deleted (string, nullable)
 + description: `Blim transaction` (string)
-+ externalToken: ` ` (string)
++ externalToken (string)
 + id: `90` (number)
 + name: `Blim transaction` (string)
-+ originalToken: `null` (string)
++ originalToken (string, nullable)
 + paymentMethod: `226` (number)
-+ paymentMethodName: ` ` (string)
++ paymentMethodName (string)
 + paymentStatus (enum[string]) 
     + Members
         + approved
@@ -289,7 +278,7 @@ Allows the consumer to fetch and refund a transaction.
         + refunded
         + declined
         + soft_declined
-+ paymentStatusDetail: ` ` (string)
++ paymentStatusDetail (string)
 + purshaseDate `2016-06-20T16:07:58Z` (string)
 + status: `1` (string)
 + subscriber: `23456` (number)
