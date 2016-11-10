@@ -220,6 +220,9 @@ Allows the consumer to fetch and refund a transaction.
 + paymentMethodToken: `we23r` (string, required) - External Payment Method Token
 + verificationAmount: `1` (number) - Verification Amount (Optional)
 + initpoint: `spreadly576c32ffce530` (string, required)
++ additionalFields (object) (Optional)
+    + ip: 127.0.0.1 (string, optional) - The ip of the user
+    + email: newuser@domain.com (string, optional) - The email of the user
 
 ## Payment Method Headers (object)
 + isUnique: `true` (boolean)
@@ -256,6 +259,9 @@ Allows the consumer to fetch and refund a transaction.
 + amount: `109` (number, required) - Transaction Amount
 + description: `Blim transaction` (string) - Transaction Description
 + reference: null (string, optional) - The transaction token, for now only used by MSO AccountManager API 
++ additionalFields (object) (Optional)
+    + ip: 127.0.0.1 (string, optional) - The ip of the user
+    + email: newuser@domain.com (string, optional) - The email of the user
 
 ## Transaction Data (object)
 + adapter: `braintree_spreedly` (string)
