@@ -28,7 +28,26 @@ Payments API is a simple application allowing consumers to manipulate payment me
     + Attributes (Base Response)
         + data
             + token: `spreedly576c24cda0fad` (string)
-
+Missing accountId, or not setting content-type header to application/json returns the following error
++ Request (application/json)
+    + Attributes (object)
++ Response 422 (application/json)
+    + Attributes (Base Response)
+        + headers (array)
+        + data (array)
+        + messages (array)
+            + Invalid payload (string)
+An empty accountId returns the following error
++ Request (application/json)
+    + Attributes (object)
+        + accountId: * (string) 
++ Response 422 (application/json)            
+    + Attributes (Base Response)
+        + headers (array)
+        + data (array)
+        + messages (array)
+            + Field 'accountId' is required and cannot be empty (string) 
+            
 ## Create [/payment-method]
 Allows the consumer to create a payment method for a specific user.
 
