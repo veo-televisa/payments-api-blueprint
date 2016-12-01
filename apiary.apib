@@ -162,9 +162,10 @@ Allows the consumer to fetch and refund a transaction.
 
 + Response 404 (application/json)
     + Attributes (Base Response)
-        + messages
-            + context: null (string)
-            + value: Transaction not found (string)
+        + headers (array)
+        + data (array)
+        + messages (array)
+            + value: Entity not found (string)
             
 ### Refund a Transaction [DELETE]
 + Parameters
