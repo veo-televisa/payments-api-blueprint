@@ -86,7 +86,7 @@ Allows the consumer to fetch a payment method for a specific user.
         + messages
             + value: Entity not found (string)
 
-## Read [/adapter/{country}]
+## Read [/adapter/{country}{?usedFor}]
 List of payment adapter by country
 
 ### Retrieve Adapters by country [GET]
@@ -94,6 +94,11 @@ Retrieve all the payment adapters by a specific country
 
 + Parameters
     + country (required, string) - country ISO Alpha-2 code
+    + usedFor (optional, enum[string]) - Purpose of the payment adapter
+        + Members
+            + `verification` - Only payment adapters used for verification
+            + `subscription` - Only payment adapters used for subscription
+        + Default: `verification`
 
 + Response 200 (application/json)
     + Attributes (Base Response)
